@@ -11,7 +11,7 @@ def parse_args():
     ap.add_argument('--nb_hidden_neurons', type=int, default=200)
     ap.add_argument('--batch_size', type=int, default=10)
     ap.add_argument('--learning_rate', type=int, default=1e-4)
-    ap.add_argument('--gama', type=float, default=0.99)  # discount factor for reward
+    ap.add_argument('--gamma', type=float, default=0.99)  # discount factor for reward
     ap.add_argument('--decay_rate', type=float, default=0.99)  # decay factor for RMSProp leaky sum of grad^2
     ap.add_argument('--resume', type=int, default=0)  # resume from previous checkpoint?
     ap.add_argument('--render', type=int, default=True)
@@ -135,7 +135,8 @@ while True:
         # boring book-keeping
         running_reward = reward_sum if running_reward is None else running_reward * 0.99 + reward_sum * 0.01
         print 'resetting env. episode reward total was %f. running mean: %f' % (reward_sum, running_reward)
-        if episode_number % 100 == 0: pickle.dump(model, open('save.p', 'wb'))
+        if episode_number % 100 == 0:
+            pickle.dump(model, open('save.p', 'wb'))
         reward_sum = 0
         observation = env.reset() # reset env
         prev_x = None
