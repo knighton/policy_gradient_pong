@@ -80,12 +80,15 @@ running_reward = None
 reward_sum = 0
 episode_number = 0
 while True:
-    if args.render:
+    if args.render and episode_number % 25 == 24:
         env.render()
 
     # preprocess the observation, set input to network to be difference image
     cur_x = preprocess(observation)
-    x = cur_x - prev_x if prev_x is not None else np.zeros(args.input_dim)
+    if prev_x is None:
+        x = np.zeros(args.input_dim)
+    else:
+        x = cur_x - prev_x
     prev_x = cur_x
 
     # forward the policy network and sample an action from the returned probability
